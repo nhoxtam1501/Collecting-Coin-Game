@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class CoinController : MonoBehaviour
 {
     public float rotateSpeed = 1f;
-    private static int coinCollected = 0;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +17,7 @@ public class CoinController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     private void FixedUpdate()
@@ -25,12 +26,7 @@ public class CoinController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ball")
-        {   
-            coinCollected++;
-            Destroy(gameObject);
-            print("Collected " + coinCollected + " coin");
-        }
+       
 
     }
 
