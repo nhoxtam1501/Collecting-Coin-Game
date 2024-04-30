@@ -14,6 +14,7 @@ public class BallController : MonoBehaviour
     float yInput;
     Rigidbody rb;
     private float jump = 200f;
+    private bool canMove = true;
 
     private int coinCollected = 0;
     public GameObject winText;
@@ -50,8 +51,16 @@ public class BallController : MonoBehaviour
 
     //fixed update is getting called after fixed amount of time
     private void FixedUpdate()
-    {
-        rb.AddForce(xInput, rb.velocity.y, yInput);
+    {   if(canMove)
+        {
+            rb.AddForce(xInput, rb.velocity.y, yInput);
+        } else
+        {
+            rb.velocity = Vector3.zero;
+            //rb.angularVelocity = Vector3.zero;
+        }
+            
+        
         //rb.velocity = new Vector3(xInput, rb.velocity.y, yInput);
     }
     private void OnCollisionEnter(Collision collision)
@@ -63,7 +72,12 @@ public class BallController : MonoBehaviour
             scoreText.text = "Score: " + coinCollected.ToString();
 
             if (coinCollected == 3)
+            {
                 winText.SetActive(true);
+                canMove = false;
+            }
+                
+            
         }
     }
 
