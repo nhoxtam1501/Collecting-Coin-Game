@@ -11,7 +11,7 @@ public class BallController : MonoBehaviour
 {
     public float speed = 6f;
     float xInput;
-    float yInput;
+    float zInput;
     Rigidbody rb;
     private float jump = 200f;
     private bool canMove = true;
@@ -19,6 +19,7 @@ public class BallController : MonoBehaviour
     private int coinCollected = 0;
     public GameObject winText;
     public Text scoreText;
+    private int TOTAL_COIN = 3;
 
     private void Awake()
     {
@@ -35,8 +36,9 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xInput = Input.GetAxis("Horizontal") * speed;
-        yInput = Input.GetAxis("Vertical") * speed;
+
+
+
 
         if (transform.position.y < -5f)
         {
@@ -51,16 +53,23 @@ public class BallController : MonoBehaviour
 
     //fixed update is getting called after fixed amount of time
     private void FixedUpdate()
-    {   if(canMove)
+    {
+        xInput = Input.GetAxis("Horizontal") * speed;
+        zInput = Input.GetAxis("Vertical") * speed;
+
+        if (canMove)
         {
-            rb.AddForce(xInput, rb.velocity.y, yInput);
-        } else
+            rb.AddForce(xInput, rb.velocity.y, zInput);
+            
+        }
+        else
         {
             rb.velocity = Vector3.zero;
-            //rb.angularVelocity = Vector3.zero;
+           // transform.Rotate(Vector3.right * speed);
+
         }
-            
-        
+
+
         //rb.velocity = new Vector3(xInput, rb.velocity.y, yInput);
     }
     private void OnCollisionEnter(Collision collision)
@@ -71,13 +80,11 @@ public class BallController : MonoBehaviour
             collision.gameObject.SetActive(false);
             scoreText.text = "Score: " + coinCollected.ToString();
 
-            if (coinCollected == 3)
+            if (coinCollected == TOTAL_COIN)
             {
                 winText.SetActive(true);
                 canMove = false;
-            }
-                
-            
+            }       
         }
     }
 
